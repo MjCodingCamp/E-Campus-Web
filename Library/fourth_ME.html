@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Firebase Script -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+  <script src="../Assets/JS/Credentials.js"></script>
+
+  <script>
+    
+  </script>
+
+  <!--Bootstrap cdn-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+  <link rel="stylesheet" href="../Assets/CSS/syllabus.css">
+
+  <link rel="shortcut icon" href="../Assets/Images/logo.png" type="image/x-icon">
+  <title>CODERSCAMP | Library | Fourth Year | ME</title>
+</head>
+
+<body onload="checkAuth();">
+  <nav class="navbar fixed-top navbar-expand-lg  navbar-dark bg-dark shadow">
+    <a class="navbar-brand" href="../index.html">CODERSCAMP
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav m-auto text-uppercase">
+        <li class="nav-item active">
+          <a class="nav-link" href="../index.html">Home </a>
+        </li>
+        <div class="dropdown">
+          <button class="btn btn-dark dropdown-toggle text-uppercase" type="button" id="dropdownMenu1"
+            data-toggle="dropdown" aria-haspopup="false" aria-expanded="false"
+            style="background:none;border: none;outline: none;">
+            academics
+          </button>
+          <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+            <li class="dropdown-item"><a href="../marks.html">marks</a></li>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item" tabindex="-1" href="#">syllabus</a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-item"><a tabindex="-1" href="../Syllabus/first.html">First Year</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Syllabus/second.html">Second Year</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Syllabus/third.html">Third Year</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Syllabus/forth.html">Final Year</a></li>
+              </ul>
+            </li>
+            <li class="dropdown-item"><a href="../Calender/Calender.html">calender</a></li>
+            <li class="dropdown-item"><a href="../Notes/notes.html">notes</a></li>
+  
+            <li class="dropdown-item"><a href="../attendance.html">attendance</a></li>
+            <li class="dropdown-item"><a href="../assignment.html">assignments</a></li>
+          </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-dark dropdown-toggle text-uppercase" type="button" id="dropdownMenu1"
+            data-toggle="dropdown" aria-haspopup="false" aria-expanded="false"
+            style="background:none;border: none;outline: none;">
+            e-library
+          </button>
+          <ul class="dropdown-menu multi-level text-uppercase" role="menu" aria-labelledby="dropdownMenu">
+            <li class="dropdown-submenu">
+              <a class="dropdown-item" tabindex="-1" href="#">First Year</a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/first.html">CSE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/first.html">ECE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/first.html">ME</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/first.html">CE</a></li>
+              </ul>
+            </li>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item" tabindex="-1" href="#">SECOND Year</a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/second_CS.html">CSE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/second_EC.html">ECE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/second_ME.html">ME</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/second_CE.html">CE</a></li>
+              </ul>
+            </li>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item" tabindex="-1" href="#">third Year</a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/third_CS.html">CSE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/third_EC.html">ECE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/third_ME.html">ME</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/third_CE.html">CE</a></li>
+              </ul>
+            </li>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item" tabindex="-1" href="#">final Year</a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/fourth_CS.html">CSE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/fourth_EC.html">ECE</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/fourth_ME.html">ME</a></li>
+                <li class="dropdown-item"><a tabindex="-1" href="../Library/fourth_CE.html">CE</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        
+        <li class="nav-item active">
+          <a class="nav-link" href="../profile.html">Profile </a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-dark rounded-pill" href="#" onclick="logout();">LOGOUT </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!--section -->
+  <div class="container main-section">
+    <h1 class="text-dark border-bottom">Fourth Year ME Books</h1>
+      <div class="row" id = "Library">
+          
+      </div>
+  </div>
+
+  <!-- footer -->
+  <footer class="bg-dark text-white">
+    <div class="container pt-4">
+      <div class="row text-white">
+        <div class="col-md-3 text-center"><img src="../Assets/Images/logo.png" alt="" width="100" height="100">
+          <h4 class="text-white p-4">CODERSCAMP </h4>
+          <ul class="list-inline mt-4">
+            <li class="list-inline-item"><a href="#" target="_blank" title="twitter"><i
+                  class="fa fa-2x fa-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" title="facebook"><i
+                  class="fa fa-2x fa-facebook"></i></a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" title="instagram"><i
+                  class="fa fa-2x fa-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" title="pinterest"><i
+                  class="fa fa-2x fa-pinterest"></i></a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" title="vimeo"><i class="fa fa-2x fa-vimeo"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-uppercase text-required font-weight-bolder mb-4">OUR TEAM</h6>
+          <ul class="list-unstyled">
+            <li class="mb-2 text-uppercase"><a href="https://www.linkedin.com/in/aashi-patel-29a35018a"
+                class="text-white">Aashi Patel</a><br></li>
+            <li class="mb-2 text-uppercase"><a href="https://www.linkedin.com/in/nandini-jha-313865190"
+                class="text-white">Nandini</a><br></li>
+            <li class="mb-2 text-uppercase"><a href="https://www.linkedin.com/in/mohd-jeeshan" class="text-white">Md.
+                Jeeshan Siddiqui</a><br>
+            </li>
+            <li class="mb-2 text-uppercase"><a href="https://www.linkedin.com/in/rohitrawatcse" class="text-white">Rohit
+                Rawat</a><br>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 ">
+          <h6 class="text-uppercase font-weight-bold mb-4">Be in Touch
+          </h6>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#" class="text-white">info@coderscamp.in
+              </a></li>
+            <li class="mb-2"><a href="#" class="text-white">www.coderscamp.in
+              </a></li>
+
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-uppercase font-weight-bold">Newsletter</h6>
+          <p class="text-white mb-4">Be in touch with us on a single click drop your email to know more .</p>
+          <div class="p-1 rounded border">
+            <div class="input-group">
+              <input type="email" placeholder="Enter your email address" aria-describedby="button-addon1"
+                class="form-control border-0 shadow-0">
+              <div class="input-group-append">
+                <button id="button-addon1" type="submit" class="btn btn-link"><i
+                    class="fa fa-2x fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyrights -->
+    <div class="bg-black">
+      <div class="container text-center">
+        <p class="text-white mb-0 pt-2 pb-2">© 2021 coderscamp All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+<!--Boottstrap js-->
+<script src="common.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    const databaseRef = firebase.database().ref();
+    const imageRef = databaseRef.child('Library').child('Library_Icon').child('Fourth_Year').child('BT-ME');
+    const pdfRef = databaseRef.child('Library').child('Library_Link').child('Fourth_Year').child('BT-ME');
+    fetchData(imageRef,pdfRef);
+</script>
+<script>
+  $(document).on('click', '.dropdown-menu', function (e) {
+  e.stopPropagation();
+});
+</script>
+
+<script>
+  if ($(window).width() < 992) {
+  $('.dropdown-menu a').click(function(e){
+    if($(this).attr('href') == '#')
+      e.preventDefault();
+    if($(this).next('.submenu').length){
+      $(this).next('.submenu').toggle();
+    }
+    $('.dropdown').on('hide.bs.dropdown', function () {
+      $(this).find('.submenu').hide();
+    })
+  });
+}
+</script>
+</body>
+
+</html>

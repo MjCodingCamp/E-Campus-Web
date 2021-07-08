@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Firebase Script -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script src="Assets/JS/Credentials.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="Assets/CSS/style.css">
+    <link rel="shortcut icon" href="Assets/Images/logo.png" type="image/x-icon">
+    <title>CODERSCAMP | Register</title>
+</head>
+
+<body style="font-family: Georgia, 'Times New Roman', Times, serif;">
+
+    <div class="spinner-border d-none" style="width: 6rem; height: 6rem;" role="status" id = "loadingDiv">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <div class="container" >
+        <div class="row" style="margin-top: 10vh;">
+            <div class="col-12">
+                <div class="alert alert-warning alert-dismissible fade show d-none" id = "warning" role="alert">
+                    <strong>Warning !</strong><span  id = "message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-10 col-md-4 bg-light shadow rounded p-4 text-center">
+                <img src="Assets/Images/logo.png" alt="Coderscamp logo" class="img img-thumbnail rounded-circle shadow p-2" width="200">
+                <form class="p-2 m-2" method="post" onsubmit="return RegisterUser();" name="registrationForm">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="user_name"   placeholder = "Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="user_email" aria-describedby="emailHelp"  placeholder = "Email" required>  
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" class="form-control" id="user_password"   placeholder="Password" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="user_branch"   placeholder="Branch" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="user_course"   placeholder = "Course" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary " id ="submitBtn">Submit</button>
+                </div>
+                </form>
+
+                <div class="mt-4">
+                    Already have an Account? <a style="text-decoration: none;"  href="Login.html">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    
+
+    <script>
+        
+        function RegisterUser(){
+            let spinner = document.getElementById('loadingDiv');
+            spinner.classList.remove('d-none');
+            const name = document.getElementById('user_name').value;
+            const email = document.getElementById('user_email').value;
+            const password = document.getElementById('user_password').value;
+            const branch = document.getElementById('user_branch').value;
+            const course = document.getElementById('user_course').value;
+            const status = 'Pending';
+
+            const warning = document.getElementById("warning");
+            const message = warning.children[1];
+
+              
+            let atposition=email.indexOf("@");  
+            let dotposition=email.lastIndexOf(".");  
+
+
+            if(name =="" || email =="" || password =="" || branch =="" || course ==""){
+                warning.classList.remove('d-none');
+                spinner.setAttribute('class', 'd-none');
+                message.innerHTML = 'All Field required';
+                return false;
+            }
+
+            else if (atposition<1 || dotposition<atposition+2 || dotposition+2>=email.length){  
+                warning.classList.remove('d-none');
+                spinner.setAttribute('class', 'd-none');
+                message.innerHTML = 'Please Enter Valid Email';
+                return false;
+            } 
+            else if(password.length < 6){
+                warning.classList.remove('d-none');
+                spinner.setAttribute('class', 'd-none');
+                message.innerHTML = 'Password must be 7 character long.';
+                return false;
+            }
+
+            else{
+                const database = firebase.database();
+                const databaseRef = firebase.database().ref('Registration');
+                const uniqueID = databaseRef.push().key;
+                console.log(uniqueID);
+
+                    databaseRef.child(uniqueID).set({
+                        Branch: branch,
+                        Course:course,
+                        Email:email,
+                        Name:name,
+                        Password:password,
+                        Status:status
+                    }).then( function(){
+                        warning.classList.remove('d-none');
+                        document.getElementsByName('registrationForm')[0].reset();
+                        spinner.setAttribute('class', 'd-none');
+                        warning.parentElement.innerHTML = `<div class="alert alert-success d-flex align-items-center" role="alert">
+                                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                                            <div>
+                                                Congratulation! Registration Success
+                                            </div>
+                                            </div>`;
+                         
+                       
+                       
+                    }).catch(function(){
+                        spinner.setAttribute('class', 'd-none');
+                        warning.classList.remove('d-none');
+                        warning.innerHTML =`Some Error Occured ! Please Try Again`;
+                    });   
+                    return false;
+            }
+        }
+        
+    </script>
+
+</body>
+
+</html>

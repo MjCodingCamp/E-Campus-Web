@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Firebase Script -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+    <script src="Assets/JS/Credentials.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="Assets/CSS/style.css">
+    <link rel="shortcut icon" href="Assets/Images/logo.png" type="image/x-icon">
+    <title>CODERSCAMP | Login</title>
+</head>
+
+<body class="bg-white" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+
+    <div class="spinner-border d-none" style="width: 6rem; height: 6rem;" role="status" id = "loadingDiv">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+
+
+    <div class="container" >
+        <div class="row" style="margin-top: 10vh;">
+            
+        </div>
+        <div class="row justify-content-center" >
+            <div class="col-10 col-md-4 bg-light shadow rounded p-4 ">
+                <div class="container text-center">
+                    <img src="Assets/Images/logo.png" alt="Coderscamp logo" class="img img-thumbnail rounded-circle shadow p-2" width="200">
+                </div>
+                <form  class="p-1 m-2" method="post" onsubmit="return LoginUser();">
+                    <div class="mb-3">
+                        <label for="profile">Login as</label>
+                        <select class="form-select form-control" id="profile">
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="user_mail" aria-describedby="emailHelp"  placeholder="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" id="user_password"  placeholder="********" required>
+                    </div>
+
+                    <div class="mb-3 form-check ">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="showPass();">
+                        <label class="form-check-label" for="exampleCheck1">Show Password</label>
+                      </div>
+                      <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+                <div class="text-center">
+                    <a style="text-decoration: none;" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal"
+                 >Forgot Password</a>
+                </div>
+                <div class="mt-4 text-center">
+                    don't have an Account? <a style="text-decoration: none;" href="Register.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- SendMail Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Enter Your E-Mail</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form method="post" onsubmit="return SendMailToResetPass();">
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">Recipient:</label>
+                      <input type="text" class="form-control" id="ResetMail" required>
+                    </div>
+                    <div class="float-end">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>   
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    <script>
+        
+
+        function showPass(){
+            let checkBox = document.getElementById("exampleCheck1");
+            let text = document.getElementById("user_password");
+
+            if (checkBox.checked == true){
+                text.setAttribute('type','text');
+            } else {
+                text.setAttribute('type','password');
+            }
+        }
+
+        function LoginUser(){
+            let spinner = document.getElementById('loadingDiv');
+            spinner.classList.remove('d-none');
+
+            console.log(firebase);
+            const user_email = document.getElementById('user_mail').value;
+            const user_password = document.getElementById('user_password').value;
+
+            const profile = document.getElementById('profile').value;
+
+
+            let atposition=user_email.indexOf("@");  
+            let dotposition=user_email.lastIndexOf("."); 
+
+            if(user_email =="" || user_password ==""){
+                spinner.className += " d-none";
+                alert("All Field required")
+                return false;
+            }
+            else if (atposition<1 || dotposition<atposition+2 || dotposition+2>=user_email.length){  
+                spinner.className += " d-none";
+                alert("Please Enter Valid Email");
+                return false;
+            }
+            else{
+                firebase.auth().signInWithEmailAndPassword(user_email, user_password).then(function(){
+                    console.log('Login Success');
+
+                    firebase.auth().onAuthStateChanged(function (user) {
+                        if (user) {
+                            // User is signed in.
+                            const u_id = user.uid;
+                            console.log('user logged in ' + user.uid);
+                            if(profile == 'Student'){
+                                const usersRef = firebase.database().ref().child('Login').child('Student');
+                                usersRef.once('value', function(snapshot) {
+                                if (snapshot.hasChild(u_id)) {
+                                    spinner.className += " d-none";
+                                    window.location = 'index.html';
+                                }
+                                else{
+                                    alert("Please Login as Teacher");
+                                    spinner.className += " d-none";
+                                    return false;
+                                }
+                                });
+                            }
+                            else if(profile == 'Teacher'){
+                                const usersRef = firebase.database().ref().child('Login').child('Teacher');
+                                usersRef.once('value', function(snapshot) {
+                                if (snapshot.hasChild(u_id)) {
+                                    spinner.className += " d-none";
+                                    window.location = 'admin/index.html';
+                                }
+                                else{
+                                    alert("Please Login as Student");
+                                    spinner.className += " d-none";
+                                    return false;
+                                }
+                                });
+                            }
+
+                        } else {
+                            // No user is signed in.
+                            window.location = "Login.html"
+                            spinner.setAttribute('class', 'd-none');
+                            }
+                    });
+     
+                    // spinner.className += " d-none";
+                    // window.location = 'index.html';
+                    // link to home screen
+
+                }).catch(function(error) {
+                    alert(error.message)
+                    //warning.classList.remove('d-none');
+                    spinner.className += " d-none";
+                    //message.innerHTML = ' Please Enter Correct Id and Password !';
+                    return false;
+                });
+
+                return false;
+            }
+        }
+
+        function SendMailToResetPass(){
+            const passwordResetEmail = document.getElementById('ResetMail').value;
+            firebase.auth().sendPasswordResetEmail(passwordResetEmail)
+            .then(() => {
+            window.alert('Password reset email sent, check your inbox.');
+            }).catch((error) => {
+            window.alert(error)
+            })
+
+            return false;
+        }
+    </script>
+
+</body>
+
+</html>
